@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.weeds.analyzer1.repository.mybatis.mapper.SystemInfoMapper">
+
+  <select id="getSystemInfoList" resultType="kr.co.weeds.analyzer1.model.loader.SystemInfo">
+    select      SYS_ID 
+    ,           COALESCE(SYS_NAME,'') as SYS_NAME 
+    ,           COALESCE(SYS_TYPE,'') as SYS_TYPE 
+    ,           COALESCE(SYS_DEPTH,0) as SYS_DEPTH 
+    ,           COALESCE(SYS_POSITION,0) as SYS_POSITION 
+    ,           COALESCE(SYS_ID_UP,'') as SYS_ID_UP 
+    from        master.TN_SYSINFO 
+    where       delete_yn='N';
+  </select>
+
+  <insert id="insertNewSystemInfo">
+    insert into master.tn_sysinfo
+    (sys_id, sys_name, sys_type, sys_depth, sys_position, sys_id_up, admin_id_create, admin_id_update, create_datetime, update_datetime, note, delete_yn, level_yn)
+    select #{newSystemId}, #{newSystemId}, sys_type, sys_depth+1, 1, #{newSystemId}, 'WEEDS', 'WEEDS', now(), now(), '', delete_yn, level_yn
+    from master.tn_sysinfo
+    where sys_id=#{parentSystemId}
+  </insert>
+  
+  <select id="getSystemFamilyList" resultType="kr.co.weeds.analyzer1.model.loader.SystemFamily">
+    select A.trace_id as traceId
+    ,      B.sys_id as sysId1
+    ,      COALESCE(C.sys_id,'') as sysId2
+    ,      COALESCE(D.sys_id,'') as sysId3
+    ,      COALESCE(E.sys_id,'') as sysId4
+    ,      COALESCE(F.sys_id,'') as sysId5
+    from master.tn_traceinfo A  join master.tn_sysinfo B 
+    ON A.sys_id = B.sys_id left outer join master.tn_sysinfo C 
+    ON B.sys_id_up = C.sys_id left outer join master.tn_sysinfo D 
+    ON C.sys_id_up = D.sys_id left outer join master.tn_sysinfo E 
+    ON D.sys_id_up = E.sys_id left outer join master.tn_sysinfo F 
+    ON E.sys_id_up = E.sys_id 
+    where  A.delete_yn='N' 
+  </select>
+
+</mapper>

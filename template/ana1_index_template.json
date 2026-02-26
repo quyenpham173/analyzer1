@@ -1,0 +1,105 @@
+{
+  "index_patterns": [
+    "user-*"
+  ],
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "mappings": {
+      "properties": {
+        "logId": {
+          "type": "keyword"
+        },
+        "logNum": {
+          "type": "keyword"
+        },
+        "startTime": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss.SSS"
+        },
+        "createdTime": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss.SSS"
+        },
+        "systemInfo": {
+          "dynamic": "false",
+          "properties": {
+            "systemId": {
+              "type": "keyword"
+            },
+            "systemName": {
+              "type": "keyword"
+            },
+            "systemType": {
+              "type": "keyword"
+            },
+            "traceId": {
+              "type": "keyword"
+            },
+            "traceName": {
+              "type": "keyword"
+            },
+            "traceType": {
+              "type": "keyword"
+            },
+            "parentSysId": {
+              "type": "keyword"
+            },
+            "logType": {
+              "type": "keyword"
+            }
+          }
+        },
+        "userInfo": {
+          "dynamic": "false",
+          "properties": {
+            "userId": {
+              "type": "keyword"
+            },
+            "userCode": {
+              "type": "keyword"
+            },
+            "userName": {
+              "type": "keyword"
+            },
+            "clientIp": {
+              "type": "text",
+              "fields": {
+                "ip": {
+                  "type": "ip",
+                  "ignore_malformed": true
+                },
+                "keyword": {
+                  "type": "keyword"
+                }
+              },
+              "fielddata": true
+            },
+            "position": {
+              "type": "keyword"
+            },
+            "duty": {
+              "type": "keyword"
+            },
+            "deptInfo": {
+              "type": "nested",
+              "properties": {
+                "code": {
+                  "type": "keyword"
+                },
+                "kind": {
+                  "type": "keyword"
+                },
+                "name": {
+                  "type": "keyword"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

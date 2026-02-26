@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.weeds.analyzer1.repository.mybatis.mapper.AppInfoMapper">
+
+  <resultMap id="appInfoMap" type="kr.co.weeds.analyzer1.model.loader.AppInfo">
+    <result column="INFO_DET_YN" property="infoDetYn"
+      typeHandler="kr.co.weeds.analyzer1.repository.mybatis.handler.BooleanYTypeHandler"/>
+    <result column="VIEW_YN" property="viewYn"
+      typeHandler="kr.co.weeds.analyzer1.repository.mybatis.handler.BooleanYTypeHandler"/>
+    <result column="INFO_USAGE_YN" property="infoUsageYn"
+      typeHandler="kr.co.weeds.analyzer1.repository.mybatis.handler.BooleanYTypeHandler"/>
+  </resultMap>
+
+  <select id="getAppInfoList" resultMap="appInfoMap">
+    SELECT
+    a.APP_SEQ as appSeq,
+    a.APP_NAME as appName,
+    a.SYS_ID as sysId,
+    a.url,
+    a.params,
+    a.method,
+    a.PERF_TYPE as perfType,
+    a.INFO_USAGE_YN,
+    a.app_attribute_code as appAttributeCode,
+    a.INFO_DET_YN,
+    a.VIEW_YN,
+    b.code_name
+    FROM
+    master.tn_appinfo a, master.tn_code b
+    where a.delete_yn='N' and a.app_attribute_code = b.code
+    order by a.url desc, a.params desc, a.method desc
+  </select>
+
+</mapper>

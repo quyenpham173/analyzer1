@@ -1,0 +1,36 @@
+{
+  "logId": "31302e3233372e322e3139314465765f6879707269766163794465765f6879707269766163792d616a702d6e696f2d302e302e302e302d383030392d657865632d332d38383237343635342d3230323431303235313430383137323833",
+  "logNum": "293294804027052000",
+  "startTime": "2025-01-12 12:10:22.235",
+  "createdTime": "2025-01-12 12:10:22.235",
+  "systemInfo": {
+    "systemId" : "KKKKKKK",
+    "systemName" : "시스템 이름",
+    "systemType" : "BZ_BZ",
+    "traceId" : "test-wt-dummy",
+    "traceName" : "test-wast2",
+    "traceType" : "TRACE_WT",
+    "parentSysId" : "",
+    "logType" : "LOG_BZ"
+  },
+  "userInfo": {
+    "userId": "test02",
+    "userCode": 1234,
+    "userName": "호호호",
+    "clientIp": "10.144.154.118",
+    "position": "Manager",
+    "duty": "BE",
+    "deptInfo": [
+      {
+        "code": "KR",
+        "kind": "dept1",
+        "name": "KR side"
+      },
+      {
+        "code": "Dev_01",
+        "kind": "dept2",
+        "name": "Dev team 1"
+      }
+    ]
+  }
+}

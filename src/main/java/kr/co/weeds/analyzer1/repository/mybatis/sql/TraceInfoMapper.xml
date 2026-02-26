@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.weeds.analyzer1.repository.mybatis.mapper.TraceInfoMapper">
+
+  <select id="getTraceInfoList" resultType="kr.co.weeds.analyzer1.model.loader.TraceInfo">
+    select
+      T.TRACE_ID as traceId,
+      coalesce(T.TRACE_NAME, '') as traceName,
+      coalesce(T.TRACE_TYPE, '') as traceType,
+      coalesce(T.TRACE_PATH, '') as tracePath,
+      coalesce(T.TRACE_IP, '') as traceIp,
+      coalesce(T.SYS_ID, '') as systemId,
+      coalesce(S.SYS_TYPE, '') as systemType,
+      coalesce(S.sys_name, '') as systemName,
+      coalesce(T.USER_PARAM_FUNC, '') as userParamFunc,
+      coalesce(T.TITLE_FUNC, '') as titleFunc,
+      coalesce(T.LOG_TYPE, '') as logType,
+      T.prv_info_func as privateInfoFunc
+    from master.TN_TRACEINFO T
+    join master.TN_SYSINFO S
+    on T.SYS_ID = S.SYS_ID
+    where T.delete_yn = 'N' ;
+  </select>
+
+  <insert id="insertNewTraceInfo">
+    insert into master.tn_traceinfo
+    (trace_id, trace_name, trace_type, trace_path, trace_ip, sys_id, user_param_func, title_func, log_type,
+    admin_id_create, admin_id_update, create_datetime, update_datetime, delete_yn, logging_yn, status, status_update_datetime, base_url)
+    select #{newTrace.traceId}, #{newTrace.traceId}, trace_type, trace_path, trace_ip,
+          #{newTrace.systemId}, user_param_func, title_func, log_type, 'WEEDS', 'WEEDS', now(), now(),
+          delete_yn, logging_yn, status, status_update_datetime, base_url
+    from master.tn_traceinfo where trace_id=#{parentTrace.traceId}
+  </insert>
+
+  <select id="getTraceLoginInfoList" resultType="kr.co.weeds.analyzer1.model.loader.TraceLoginInfo">
+    SELECT
+      seq as seq,
+      trace_id as traceId,
+      sys_id as systemId,
+      login_url as loginUrl,
+      user_param_name as userParamName,
+      user_param_func as userParamFunc
+    FROM master.tn_trace_login_info
+    order by seq asc;
+  </select>
+
+</mapper>

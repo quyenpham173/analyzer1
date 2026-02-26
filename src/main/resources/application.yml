@@ -1,0 +1,85 @@
+server:
+  port: 8088
+  servlet:
+    contextPath: /analyzer1
+
+spring:
+  profiles:
+    active: dev
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+    datasource:
+      driverClassName: org.h2.Driver
+      jdbc-url: jdbc:h2:file:./h2/file
+      username: blackbox
+      password: blackbox123!@#
+  postgres:
+    datasource:
+      driverClassName: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://172.16.50.90:5432/blackbox
+      username: wbsmaster
+      password: wbsmaster
+  task:
+    scheduling:
+      pool:
+        size: 2
+      analyze-timeout: 10
+      prefix: AnalyzeJob-
+
+mybatis:
+  mapper-locations: classpath*:kr/co/weeds/repository/mybatis/sql/*.xml
+
+logging:
+  config: classpath:logback.xml
+
+lh-server:
+  repo:
+    host: 172.16.50.90
+    port: 9200
+    protocol: http
+#    username: admin
+#    password: admin
+    index-prefix: tracelog-
+  timeout:
+    connect: 5000
+    socket: 3600000
+    connection-request: 3600000
+  query:
+    size: 100
+
+os-server:
+  repo:
+    host: 172.16.50.90
+    port: 9200
+    protocol: http
+#    username: admin
+#    password: admin
+    index-prefix: user-
+  bulk:
+    enabled: true
+    timeout: 5
+  timeout:
+    connect: 5000
+    socket: 3600000
+    connection-request: 3600000
+
+log-analyze:
+  max-retry: 5
+  error-backup-folder: D:\Workspace\Analyzer_1\
+
+thread:
+  poolSize:
+    core: 3
+    max: 5
+  capacity: 100
+  prefix: AnalyzeThread-
+
+cache-server:
+  protocol: http
+  host: 172.16.50.90
+  port: 9090
+  context-path: /opuser
